@@ -1,0 +1,76 @@
+.st-key-hero-container {
+    background-color: rgb(28, 118, 162);
+
+    padding: 30px 45px;
+    color: whitesmoke;
+    box-sizing: border-box;
+
+}
+.st-key-seach_bar{
+    border-radius: 20px;
+}
+.st-key-seach_bar input{
+    /* border-radius: 20px; */
+    font-size: 16px;
+    font-weight: 400;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 1.5rem 1rem
+}
+
+
+.st-key-hero-container {
+  background-color: rgb(28, 118, 162);
+
+  padding: 30px 45px;
+  color: whitesmoke;
+  box-sizing: border-box;
+}
+
+.st-key-free-container {
+  margin: 0.5rem 0;
+  padding: 30px 45px;
+}
+.st-key-explore-movie-container{
+  margin: 0.5rem 0;
+  padding: 30px 45px;
+
+}
+.st-key-nav-container .stButton > button {
+  background-color: #5e6d21;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  height: 120px;
+  font-size: 100px !important;
+  font-weight: 600;
+  transition: 0.2s;
+  /* width: 15rem !important; */
+}
+
+.st-key-nav-container .stButton > button p {
+  font-size: 24px;
+
+  /* width: 15rem !important; */
+}
+
+.st-key-nav-container .stButton > button:hover {
+  background-color: #374151;
+  color: white;
+  border: 2px solid #00b4d8;
+}
+
+#overview_content{
+  font-size: 1.1rem;
+}
+#movie_inforamtion_section i{
+  color: #07042987;
+  font-size: 1.1rem;
+
+}
+
+.st-key-info_movie_poster{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

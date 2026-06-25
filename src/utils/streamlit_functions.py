@@ -1,0 +1,30 @@
+import streamlit as st
+import requests
+
+@st.cache_data(ttl=3600)
+def get_movie(movie_id):
+
+    API_KEY = '97b22151eba2904522a45e884108de4e'
+
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+    params = {"api_key": API_KEY}
+
+    try:
+        response = requests.get(
+            url,
+            params=params,
+            timeout=10
+        )
+
+        response.raise_for_status()
+
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        # st.error(f"Movie {movie_id}: {e}")
+        st.text("Clould Not Load")
+        return None
+    except Exception as e:
+        st.text("Clould Not Load")
+
+    
