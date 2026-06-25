@@ -74,3 +74,9 @@
   align-items: center;
   justify-content: center;
 }
+.st-key-movie_selection{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:row;
+}

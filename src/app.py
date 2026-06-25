@@ -3,10 +3,10 @@ import streamlit as st
 import requests
 import pandas as pd
 import numpy as np
-from utils.streamlit_functions import get_movie
+from utils.streamlit_functions import get_movie,getMovie_lookup
 from components.style import load_css,load_css_file
 from components.utils import navitagor
-
+import os
 st.set_page_config(
     page_title="Movie Recommendation System",
     page_icon="🎬",
@@ -27,6 +27,8 @@ if 'movie_show' not in st.session_state:
         'movie_title' : None,
         'movie_id' :None
     }
+
+MOVIEID_LOOKUP =  getMovie_lookup()
 
 # Display movies
 def movie_card(movie_id):
