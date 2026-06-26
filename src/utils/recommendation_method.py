@@ -13,13 +13,17 @@ overview_embeddings = np.load('artifact/embeddings/overview_embeddings.npy')
 
 
 
-from src.classes.content_based_movies import ContentRecommendationMovie
+from classes.content_based_movies import ContentRecommendationMovie
 
-def get_movies_content_based(movie_idx):
+def get_movies_content_based(movie_id):
 
     '''
+    Input :
+    movie_id : Id of TMDB movie not index.
     Return the top movies of it.
+
     '''
+    movie_idx = tmdb_movies_info[tmdb_movies_info['movie_id']==movie_id].index[0]
      
     match_score = content_based_filtering(movie_idx) # movie index of current movie
 
@@ -180,11 +184,12 @@ def collaborative_based_filtering(user_id):
 #  Test Content Based filters
 
 # if __name__ == '__main__':
-#     movie_idx = 76
-#     recommended_movies_info =get_movies_content_based(movie_idx)
+#     movie_id = 70160
+#     recommended_movies_info =get_movies_content_based(movie_id)
 
 #     for rmc in recommended_movies_info:
 #         print(f'Movie Title is : {rmc.movie_title}')
+#         print(f'Movie_id is : {rmc.movie_id}')
 #         print(f'Movie matching_keywords is : {rmc.matching_keywords}')
 #         print(f'Movie matching_gernes is : {rmc.matching_gernes}')
 #         print(f'Movie overview_similarity is : {rmc.overview_similarity}')
@@ -196,8 +201,9 @@ def collaborative_based_filtering(user_id):
 
 #  Test Collaborative Based filters  
 
-if __name__ == '__main__':
-    print('Collaborative Filtering result : ')
-    result = collaborative_based_filtering(user_id=4019)
-    for rm in result:
-        print(f'Title : {rm['title']}, rating : {rm['predicted_rating']}, movieId is {rm['movieId']}')
+# if __name__ == '__main__':
+#     print('Collaborative Filtering result : ')
+#     result = collaborative_based_filtering(user_id=4019)
+#     for rm in result:
+#         # print(f'Title : {rm['title']}, rating : {rm['predicted_rating']}, movieId is {rm['movieId']}')
+#         print(rm)

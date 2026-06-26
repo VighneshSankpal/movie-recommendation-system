@@ -80,3 +80,12 @@
   justify-content: center;
   flex-direction:row;
 }
+
+
+/* 3: Collaborative filtering page */
+.st-key-user-selection-search-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}

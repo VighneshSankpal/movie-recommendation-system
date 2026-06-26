@@ -15,6 +15,7 @@ class ContentRecommendationMovie:
             Input : Index of recommendated movie object ( tmdb table index )
         '''
         self.movie_idx = movie_idx
+        self.movie_id =  tmdb_movies_info.loc[movie_idx,'movie_id']
         
         self.movie_title = None
         self.matching_keywords = None
@@ -86,6 +87,7 @@ if __name__ == '__main__':
 
     for rmc in recommended_movies_info:
         print(f'Movie Title is : {rmc.movie_title}')
+        print(f'Movie_id is : {rmc.movie_id}')
         print(f'Movie matching_keywords is : {rmc.matching_keywords}')
         print(f'Movie matching_gernes is : {rmc.matching_gernes}')
         print(f'Movie overview_similarity is : {rmc.overview_similarity}')
