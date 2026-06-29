@@ -10,7 +10,7 @@ class ContentRecommendationMovie:
     '''
      Save information and find similaraties and explaination of recommendated movie
     '''
-    def __init__(self,movie_idx,overview_similarity):
+    def __init__(self,movie_idx,overview_similarity,similarity_score=None):
         '''
             Input : Index of recommendated movie object ( tmdb table index )
         '''
@@ -21,7 +21,9 @@ class ContentRecommendationMovie:
         self.matching_keywords = None
         self.matching_gernes = None
         self.matching_director = None
-        self.overview_similarity = round(overview_similarity,2)
+        self.predicted_rating = None
+        self.overview_similarity = overview_similarity
+        self.similarity_score = similarity_score
    
     def calcualte_similarities(self,recommended_tmdb_idx):
         '''

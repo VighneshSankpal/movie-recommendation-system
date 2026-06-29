@@ -40,7 +40,7 @@ def get_movies_content_based(movie_id):
 
 # get movies intedex 
 
-def content_based_filtering(movie_idx):
+def content_based_filtering(movie_idx,movie_size=11):
     '''
     apply content based filtering on given movie index and return the top similarities movies.
     input:
@@ -58,20 +58,22 @@ def content_based_filtering(movie_idx):
     similarities = cosine_similarity([combined_embeddings[tmdb_index]],combined_embeddings)[0]
 
     # sort index based on values then change the order into descending and give first 10 values index
-    top_indicies = similarities.argsort()[::-1][:11]
+    top_indicies = similarities.argsort()[::-1][:movie_size]
 
     # # calculate score of movide matching
     top_similar_movies  = []
-    for  rm in top_indicies[1:]:
+    for  idx in top_indicies[1:]:
         
-        movie_info = {'movie_title' : tmdb_movies_info.loc[rm,'title'],'index' :rm}
+        movie_info = {'movie_title' : tmdb_movies_info.loc[idx,'title'],
+                      'index' :idx,
+                      'similarity_score':float(similarities[idx])
+                      }
         
-        movie_similarity = get_similarity_explaination(tmdb_index,rm)
+        movie_similarity = get_similarity_explaination(tmdb_index,idx)
         
         movie_info.update(movie_similarity)
         
         top_similar_movies.append(movie_info)
-
         
 
     return top_similar_movies
@@ -179,6 +181,52 @@ def collaborative_based_filtering(user_id):
     return top_predictions    
 
     
+
+# Hybrid filtering area
+def get_movies_hybrid_based(tmdb_movie_id,user_id):
+    # calcaluate top 150 content similarity movies
+    
+    
+    
+    movie_indx= tmdb_movies_info[tmdb_movies_info['movie_id']==tmdb_movie_id].index[0]
+    top_content_matching_movies = content_based_filtering(movie_indx,151)
+    movies_watcheds = set(userWatched_movies[str(user_id)])
+
+    all_movies = set()
+    for content_movie in top_content_matching_movies:
+        all_movies.add(movieId_lookup.loc[content_movie['index'],'movieLens_movieId'])
+
+    unWatched_movies = (all_movies - movies_watcheds)
+
+    predictions = []
+    # calculate the prediction rating for user U for unwatched movie uM
+    for movie in unWatched_movies:
+        pred_rating = svd_model.predict(user_id,movie).est
+        predictions.append([movie,pred_rating])
+
+    predictions.sort(key = lambda x : x[1],reverse=True)
+
+    top_pred = predictions[:10]
+    for i in top_pred:    
+        i.append(movieId_lookup.loc[movieId_lookup['movieLens_movieId']== i[0],'tmdb_movieId'].index[0])
+
+    find_final_movies = []
+    
+    for pred_item in top_pred:
+        for movie in top_content_matching_movies:
+            if movie['index'] == pred_item[2]:
+                movie['predicted_rating'] =pred_item[1]
+                find_final_movies.append(movie)
+
+    fan= []
+    for movie in find_final_movies:
+        rm = ContentRecommendationMovie(movie['index'],movie['overview_similarity'],movie['similarity_score'])
+        rm.calcualte_similarities(movie_indx)
+        rm.predicted_rating = movie['predicted_rating']
+        fan.append(rm)
+
+    return fan
+
 
 
 #  Test Content Based filters

@@ -43,59 +43,62 @@ movie_posterPath = pd.read_csv('dataset/processed/movieId_poster.csv')
 # ---------------------------------------------------------------------
 # function defined
 def movie_card(rm):
-    poster_path  = movie_posterPath.loc[movie_posterPath['tmdb_movieId']==rm.movie_id,'poster_path'].values[0]
+    with st.container(border=True):
+        poster_path  = movie_posterPath.loc[movie_posterPath['tmdb_movieId']==rm.movie_id,'poster_path'].values[0]
 
-    if poster_path == 'unknown':
+        if poster_path == 'unknown':
 
-        data = get_movie(rm.movie_id)
+            data = get_movie(rm.movie_id)
 
-        if data is None:
-            return
+            if data is None:
+                return
 
-        poster_path = data.get("poster_path")
+            poster_path = data.get("poster_path")
+            
+
+            movie_posterPath.loc[movie_posterPath['tmdb_movieId']==rm.movie_id,'poster_path'] = poster_path
+            movie_posterPath.to_csv('dataset/processed/movieId_poster.csv',index=False)
         
 
-        movie_posterPath.loc[movie_posterPath['tmdb_movieId']==rm.movie_id,'poster_path'] = poster_path
-        movie_posterPath.to_csv('dataset/processed/movieId_poster.csv',index=False)
+        if poster_path:
+            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
+
+            st.image(poster_url, width=300)
+
+        
+        movie_title = rm.movie_title
+        
+        # st.write(f'Movie Title is : {rm.movie_title}')
+        # st.write(f'Movie_id is : {rmc.movie_id}')
     
 
-    if poster_path:
-        poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
-
-        st.image(poster_url, width=300)
-
-    
-    movie_title = rm.movie_title
-      
-    # st.write(f'Movie Title is : {rm.movie_title}')
-    # st.write(f'Movie_id is : {rmc.movie_id}')
-  
-
-    if rm.matching_keywords:
-        similar_keywords = ', '.join(rm.matching_keywords)
-        st.write(f'Matching Keywords are : {similar_keywords}')
+        if rm.matching_keywords:
+            similar_keywords = ', '.join(rm.matching_keywords)
+            st.write(f'Matching Keywords are : {similar_keywords}')
 
 
-    if rm.matching_gernes:
-        similar_genres = ', '.join(rm.matching_gernes)
-        st.write(f'Matching genres are : {similar_genres}')
+        if rm.matching_gernes:
+            similar_genres = ', '.join(rm.matching_gernes)
+            st.write(f'Matching genres are : {similar_genres}')
 
-    matching_plot = float(rm.overview_similarity)
-    st.write(f'Plot similarity is : {round(matching_plot,2)}')
+        matching_plot = float(rm.overview_similarity)
+        st.write(f'Plot similarity is : ')
+        st.progress(value=round(matching_plot))
+        st.write(f'{round(matching_plot,2)}% ')
 
-    if rm.matching_director:
+        if rm.matching_director:
 
-        st.write(f'Same movie Director.')
+            st.write(f'Same movie Director.')
 
 
-    
-    # st.write(f'Title : {movie_title if len(movie_title) <18 else movie_title[:17]+'..'}')
-    if st.button(label='Check Out it', key= f'movie-show-{rm.movie_id}'):
-        st.session_state['movie_show'] = {
-        'movie_title' :movie_title,
-        'movie_id' :movie_id
-    }
-        st.switch_page(page='pages/4_Movie_info.py')
+        
+        # st.write(f'Title : {movie_title if len(movie_title) <18 else movie_title[:17]+'..'}')
+        if st.button(label='Check Out it', key= f'movie-show-{rm.movie_id}'):
+            st.session_state['movie_show'] = {
+            'movie_title' :movie_title,
+            'movie_id' :movie_id
+        }
+            st.switch_page(page='pages/4_Movie_info.py')
 
 
 

@@ -89,3 +89,11 @@
   justify-content: center;
   flex-direction: row;
 }
+
+/* --------------------------------------------------------- */
+.st-key-user-movie-selection-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}

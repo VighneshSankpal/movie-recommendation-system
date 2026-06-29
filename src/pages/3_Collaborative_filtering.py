@@ -75,34 +75,56 @@ def show_user_profile(user):
 
 
 def movie_card(rm):
+    with st.container(border=True):
     
-    tmdb_movieId =  movieId_lookup.loc[movieId_lookup['movieLens_movieId']==rm['movieId'],'tmdb_movieId'].values[0]
-    poster_path  = movie_posterPath.loc[movie_posterPath['tmdb_movieId']==tmdb_movieId,'poster_path'].values[0]
-    if poster_path == 'unknown':
+        tmdb_movieId =  movieId_lookup.loc[movieId_lookup['movieLens_movieId']==rm['movieId'],'tmdb_movieId'].values[0]
+        poster_path  = movie_posterPath.loc[movie_posterPath['tmdb_movieId']==tmdb_movieId,'poster_path'].values[0]
+        if poster_path == 'unknown':
 
-        data = get_movie(tmdb_movieId)
+            data = get_movie(tmdb_movieId)
 
-        if data is None:
-            return
+            if data is None:
+                return
 
-        poster_path = data.get("poster_path")
+            poster_path = data.get("poster_path")
+            
+
+            movie_posterPath.loc[movie_posterPath['tmdb_movieId']==tmdb_movieId,'poster_path'] = poster_path
+            movie_posterPath.to_csv('dataset/processed/movieId_poster.csv',index=False)
         
 
-        movie_posterPath.loc[movie_posterPath['tmdb_movieId']==tmdb_movieId,'poster_path'] = poster_path
-        movie_posterPath.to_csv('dataset/processed/movieId_poster.csv',index=False)
-    
+        if poster_path:
+            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
 
-    if poster_path:
-        poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
+            st.image(poster_url, width=300)
+        
+        
+        movie_title = str(rm['title'])
 
-        st.image(poster_url, width=300)
-    
-    st.write(f'Title : {rm['title']}')
 
-    predicted_rating = rm['predicted_rating']
-    normalized_rating = (predicted_rating-0.5)/(5-0.5)
-    st.write(f'Changes of liking {round(normalized_rating*100,2)}%')
+             
+        st.markdown(
+            f"""
+            <div style="
+                height: 60px;
+                font-size: 1.4rem;
+                font-weight: 600;
+                line-height: 1.3;
+                overflow: hidden;
+            ">
+                {movie_title}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        predicted_rating = rm["predicted_rating"]
 
+        score = ((predicted_rating - 0.5) / 4.5) * 100
+        score = max(0, min(100, score))  # Clamp to 0–100
+
+        st.caption(f"Predicted Rating: ⭐ {predicted_rating:.2f}/5")
+        st.caption(f"Recommendation Score: {score:.1f}%")
+        st.progress(int(score))
     
 
 # -------------------------------------------------------

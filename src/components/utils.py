@@ -33,7 +33,7 @@ def navitagor():
     st.markdown("## Navigate Dashboard")
     with st.container(key='nav-container'):
 
-        col ,col1, col2, col3= st.columns(4)
+        col ,col1, col2, col3, col4= st.columns(5)
         with col:
             if st.button('\n\nHome', key='home_btn',use_container_width=True):
                 st.switch_page('app.py')
@@ -60,3 +60,11 @@ def navitagor():
                 use_container_width=True,
             ):
                 st.switch_page("pages/4_Movie_info.py")
+
+        with col4:
+            if st.button(
+                "🎬\n\Hybrid Filtering",
+                key="hybrid_btn",
+                use_container_width=True,
+            ):
+                st.switch_page("pages/5_Hybrid_filtering.py")
