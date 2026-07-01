@@ -1,8 +1,9 @@
 *.ipynb_checkpoints
 dataset/*
-!dataset/processed
+!dataset/processed/
+dataset/processed/exist_moives_rating.csv
 
-notebook
+
 info.txt
 
 
