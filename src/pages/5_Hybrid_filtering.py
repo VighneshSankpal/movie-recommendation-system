@@ -142,13 +142,14 @@ def show_movie_card(movie):
 
             st.divider()
 
-            st.markdown("**Shared Genres**")
 
-            st.write(", ".join(movie.matching_gernes))
+            if movie.matching_gernes:
+                st.markdown("**Shared Genres**")
+                st.write(f'''<i>{", ".join(movie.matching_gernes)}</i>''',unsafe_allow_html=True)
 
-            st.markdown("**Common Themes**")
-
-            st.write(", ".join(movie.matching_keywords))
+            if movie.matching_keywords:
+                st.markdown("**Common Themes**")
+                st.write(f'''<i>{", ".join(movie.matching_keywords)} </i>''',unsafe_allow_html=True)
 
             st.markdown("**Story Similarity**")
             similarity_plot = movie.overview_similarity
@@ -176,31 +177,122 @@ MOVIEID_LOOKUP = getMovie_lookup()
 movie_posterPath = pd.read_csv('dataset/processed/movieId_poster.csv')
 
 
+
+
 # -------------------------------------------------------
 # Page Body 
 with st.container(key = 'hybrid-page-body'):
-    st.subheader('Hybrid Filtering')
+    with st.container():
+        st.html("""
+        <div class="hybrid-banner">
+
+    <div class="hybrid-header">
+
+        <div class="hybrid-icon">🤝</div>
+
+        <div>
+
+            <h2>Hybrid Recommendation Engine</h2>
+
+            <p>
+                Combines Content-Based Filtering and Collaborative Filtering
+                to generate more personalized and accurate movie recommendations.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="workflow">
+
+        <div class="workflow-box">
+
+
+            <h4>Selected Movie</h4>
+
+            <p>Captures movie characteristics using semantic embeddings.</p>
+
+        </div>
+
+        <div class="workflow-arrow">➜</div>
+
+        <div class="workflow-box">
+
+
+
+            <h4>User Profile</h4>
+
+            <p>Learns user preferences from historical movie ratings.</p>
+
+        </div>
+
+        <div class="workflow-arrow">➜</div>
+
+        <div class="workflow-box">
+
+     
+
+            <h4>Hybrid Ranking</h4>
+
+            <p>Combines both recommendation scores into one final ranking.</p>
+
+        </div>
+
+        <div class="workflow-arrow">➜</div>
+
+        <div class="workflow-box">
+
+    
+            <h4>Recommendations</h4>
+
+            <p>Displays explainable movie recommendations tailored to the user.</p>
+
+        </div>
+
+    </div>
+
+</div>
+            """)
+    
 
     with st.container(key='user-movie-selection-section'):
-        st.write("User and movie selection")
+        st.markdown("### 🎬 Content-Based Recommendation")
+        st.caption("Choose a movie and we'll recommend similar movies.")
 
         # user and movie id selection container
-        with st.container(key = 'user-movie-selection-container'):
+        col1,col2,col3 = st.columns([3,3,1], vertical_alignment='bottom')
+
+        with col1:
             # User Id
             user_ids = [str(item['user_id']) for item in users_data]
             user_ids.sort()
+            st.write("User Id")
+            selected_userId = st.selectbox(label='Select User Id',
+                                           options=user_ids,
+                                           key='stSelectbox2',
+                                           label_visibility='collapsed',
+                                           
 
-            selected_userId = st.selectbox(label='Select User Id',options=user_ids,width=350)
+                                           )
 
+        with col2:    
             # Movie Id:
+            st.write("Movie Id")
             all_movies = MOVIEID_LOOKUP['title_clean'].unique().tolist()
             all_movies.sort()
 
-            selected_movie = st.selectbox(label='Select Movie', options=all_movies[70:],placeholder='select movie',width=500)
+            selected_movie = st.selectbox(label='Select Movie',
+                                           options=all_movies[70:],
+                                           placeholder='select movie',
+                                           label_visibility='collapsed',
+                                           key='stSelectbox'
+                                           )
 
             
+        with col3:
+            recommend =  st.button('Recommend',key='recommend_btn',use_container_width=True)
 
-            if st.button('Continue'):
+            if recommend:
                 st.session_state['hybrid_userId'] = selected_userId
                 movie_id = MOVIEID_LOOKUP.loc[MOVIEID_LOOKUP['title_clean']== selected_movie,'tmdb_movieId'].values[0]
 
@@ -212,8 +304,6 @@ with st.container(key = 'hybrid-page-body'):
             select_user_details =  [item for item in users_data if item['user_id'] == str(selected_userId)]        
             show_user_profile(select_user_details[0])
         
-            st.write(f'selected user id is {st.session_state['hybrid_userId']}')
-            st.write(f'selected movie id is {st.session_state['hybrid_movieId']}')
 
             top_rms = get_movies_hybrid_based(user_id=st.session_state['hybrid_userId'],
                                               tmdb_movie_id=st.session_state['hybrid_movieId'])
@@ -262,9 +352,11 @@ with st.container(key = 'hybrid-page-body'):
                         '''
                     )
 
-
             # Movies 1-5 showing
+
             with st.container(key='rm-content-lay1-container'):
+                st.subheader("Recommended Movies")
+                
                 layer1_col = st.columns(5)
                 for i in range(5):
                     with layer1_col[i]:

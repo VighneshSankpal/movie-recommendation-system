@@ -117,14 +117,17 @@ def movie_card(rm):
             """,
             unsafe_allow_html=True,
         )
-        predicted_rating = rm["predicted_rating"]
+        with st.expander("💡Explanation"):
 
-        score = ((predicted_rating - 0.5) / 4.5) * 100
-        score = max(0, min(100, score))  # Clamp to 0–100
 
-        st.caption(f"Predicted Rating: ⭐ {predicted_rating:.2f}/5")
-        st.caption(f"Recommendation Score: {score:.1f}%")
-        st.progress(int(score))
+            predicted_rating = rm["predicted_rating"]
+
+            score = ((predicted_rating - 0.5) / 4.5) * 100
+            score = max(0, min(100, score))  # Clamp to 0–100
+
+            st.caption(f"Predicted Rating: ⭐ {predicted_rating:.2f}/5")
+            st.caption(f"Recommendation Score: {score:.1f}%")
+            st.progress(int(score))
     
 
 # -------------------------------------------------------
@@ -146,19 +149,130 @@ movie_posterPath = pd.read_csv('dataset/processed/movieId_poster.csv')
 # -------------------------------------------------------
 # Page Body 
 with st.container():
-    st.subheader("Collaborative Filtering")
+    with st.container():
 
-    with st.container(key='user-selection-container'):
-        st.write("* Collaborative filtering only works on Historical user data it won't work new user.")
-        st.write("* We select random user and their data to understanding colloborative filtering.")
-        st.write("Please select user.")
+        st.html("""
+                    <div class="model-banner">
+
+                <div class="model-header">
+
+
+                    <div class="model-text">
+
+                        <h2>Collaborative Filtering</h2>
+
+                        <p>
+                            Discover personalized movie recommendations by learning from
+                            historical user ratings. This model identifies hidden user
+                            preferences using SVD Matrix Factorization.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="workflow">
+
+                    <div class="workflow-card">
+
+
+                        <h4>Select User</h4>
+
+                        <p>
+                            Choose a sample user from the MovieLens dataset.
+                        </p>
+
+                    </div>
+
+                    <div class="workflow-arrow">➜</div>
+
+                    <div class="workflow-card">
+
+
+                        <h4>Rating History</h4>
+
+                        <p>
+                            Analyze the user's previous movie ratings and preferences.
+                        </p>
+
+                    </div>
+
+                    <div class="workflow-arrow">➜</div>
+
+                    <div class="workflow-card">
+
+
+                        <h4>SVD Model</h4>
+
+                        <p>
+                            Learn hidden relationships between users and movies using
+                            matrix factorization.
+                        </p>
+
+                    </div>
+
+                    <div class="workflow-arrow">➜</div>
+
+                    <div class="workflow-card">
+
+
+                        <h4>Recommendations</h4>
+
+                        <p>
+                            Predict ratings for unseen movies and recommend the highest
+                            ranked ones.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+                """)
+        st.html("""
+                <div class="info-banner">
+
+            <div class="info-icon">
+                💡
+            </div>
+
+            <div class="info-content">
+
+                <h4>Collaborative Filtering</h4>
+
+                <p>
+                    This recommendation engine learns from a user's historical movie ratings.
+                    Since new visitors have no rating history, this uses
+                    <strong>sample users from the MovieLens dataset</strong>.
+                    Select any user ID to explore recommendations based on that user's
+                    preferences and viewing behaviour.
+                </p>
+
+            </div>
+
+        </div>
+            """)
+
+
+    with st.container(key='user-selection-container',border=True):
+        st.markdown("### 🎬 Collaborative-Based Recommendation")
+        # st.caption("Choose a user.")
+
+
         with st.container(key='user-selection-search-container'):
-            user_ids = [int(item['user_id']) for item in users_data]
-            user_ids.sort()
-            selected_userId = st.selectbox(label="Select User id",options=user_ids,width=400)
+            col1,col2 = st.columns([6,1],vertical_alignment='center')
 
-            if st.button("Continue"):
-                st.session_state['userId']= selected_userId
+            with col1:
+
+                user_ids = [int(item['user_id']) for item in users_data]
+                user_ids.sort()
+                selected_userId = st.selectbox(label="Select User id",options=user_ids,label_visibility='collapsed',key='stSelectbox')
+
+            with col2:
+                recommend_btn =st.button("Recommend",disabled=selected_userId is None,use_container_width=True,key='recommend_btn')
+
+                if recommend_btn:
+                    st.session_state['userId']= selected_userId
                 
 
     if st.session_state['userId']:

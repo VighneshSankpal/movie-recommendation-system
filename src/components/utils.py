@@ -30,41 +30,40 @@ def setup_page():
     navitagor()
 
 def navitagor():
-    st.markdown("## Navigate Dashboard")
-    with st.container(key='nav-container'):
+    st.markdown('<div class="nav-bar">', unsafe_allow_html=True)
 
-        col ,col1, col2, col3, col4= st.columns(5)
-        with col:
-            if st.button('\n\nHome', key='home_btn',use_container_width=True):
-                st.switch_page('app.py')
-        with col1:
-            if st.button(
-                "📦\n\nContent Filtering",
-                key="content_btn",
-                use_container_width=True,
-            ):
-                st.switch_page("pages/2_Content_filtering.py")
+    c1, c2, c3, c4 = st.columns(4)
 
-        with col2:
-            if st.button(
-                "🤝\n\nCollaborative Filtering",
-                key="collab_btn",
-                use_container_width=True,
-            ):
-                st.switch_page("pages/3_Collaborative_filtering.py")
+    with c1:
+        if st.button(
+            "🏠 Home",
+            key="home_tab",
+            use_container_width=True
+        ):
+            st.switch_page("app.py")
 
-        with col3:
-            if st.button(
-                "🎬\n\nMovie Info",
-                key="movie_btn",
-                use_container_width=True,
-            ):
-                st.switch_page("pages/4_Movie_info.py")
+    with c2:
+        if st.button(
+            "🎬 Content",
+            key="content_tab",
+            use_container_width=True
+        ):
+            st.switch_page("pages/2_Content_filtering.py")
 
-        with col4:
-            if st.button(
-                "🎬\n\Hybrid Filtering",
-                key="hybrid_btn",
-                use_container_width=True,
-            ):
-                st.switch_page("pages/5_Hybrid_filtering.py")
+    with c3:
+        if st.button(
+            "👥 Collaborative",
+            key="collab_tab",
+            use_container_width=True
+        ):
+            st.switch_page("pages/3_Collaborative_filtering.py")
+
+    with c4:
+        if st.button(
+            "🤝 Hybrid",
+            key="hybrid_tab",
+            use_container_width=True
+        ):
+            st.switch_page("pages/5_Hybrid_filtering.py")
+
+    st.markdown("</div>", unsafe_allow_html=True)
