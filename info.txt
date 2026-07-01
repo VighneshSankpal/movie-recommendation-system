@@ -1,6 +1,0 @@
-This is deep learning based movie recommendation system project.
-
-today task:
-1.collect movie information dataset
-2. collect movie rating dataset
-3. build api to fetch the movie poster.

@@ -2,8 +2,8 @@
 dataset/*
 !dataset/processed
 
-\notebook
-
+notebook
+info.txt
 
 
 # gitignore for python
