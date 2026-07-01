@@ -1,7 +1,9 @@
 *.ipynb_checkpoints
-dataset
+dataset/*
+!dataset/processed
 
-artifact
+\notebook
+
 
 
 # gitignore for python
@@ -224,4 +226,5 @@ marimo/_lsp/
 __marimo__/
 
 # Streamlit
+
 .streamlit/secrets.toml
