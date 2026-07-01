@@ -256,8 +256,8 @@ with st.container(key = 'hybrid-page-body'):
     
 
     with st.container(key='user-movie-selection-section'):
-        st.markdown("### 🎬 Content-Based Recommendation")
-        st.caption("Choose a movie and we'll recommend similar movies.")
+        st.markdown("### 🎬 Hybrid Based Recommendation")
+        st.caption("Choose a user and movie, we'll recommend similar movies.")
 
         # user and movie id selection container
         col1,col2,col3 = st.columns([3,3,1], vertical_alignment='bottom')

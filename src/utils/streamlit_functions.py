@@ -6,7 +6,7 @@ import os
 @st.cache_data(ttl=3600)
 def get_movie(movie_id):
 
-    API_KEY = '97b22151eba2904522a45e884108de4e'
+    API_KEY = st.secrets['TMDB_API_KEY']
 
     url = f"https://api.themoviedb.org/3/movie/{movie_id}"
     params = {"api_key": API_KEY}
