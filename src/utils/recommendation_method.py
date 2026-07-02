@@ -115,11 +115,12 @@ def get_similarity_explaination(movie_idx,remm_idx):
 #  COllaborative filtering Area::
 
 import json
-import pickle
+import joblib
 
 # Import trained SVD model.
 with open('artifact/svd_model.pkl','rb') as file:
-    svd_model = pickle.load(file)
+    svd_model = joblib.load(file)
+    
 
 # user watched movies data
 with open('dataset/processed/userWatched_movies.json','r') as file:
