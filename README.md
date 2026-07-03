@@ -19,9 +19,8 @@ An intelligent movie recommendation system built using **Machine Learning**, **D
 
 # 📸 Application Preview
 
-<video src="screenshots/movie_recommendation_system_demo.mp4" width="100%" controls>
-  Your browser does not support the video tag.
-</video>
+![](screenshots/movie_recommendation_system_demo.mp4)
+
 
 ---
 
