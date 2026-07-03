@@ -106,7 +106,7 @@ Each recommendation includes:
 
 ---
 
-## 3. 🤝 Hybrid Recommendation Engine
+## 3. Hybrid Recommendation Engine
 
 The hybrid engine combines both recommendation strategies.
 
@@ -235,30 +235,7 @@ Run the application
 streamlit run app.py
 ```
 
----
-
-# 📊 Recommendation Pipeline
-
-```text
-                User
-                  │
-                  ▼
-      Select Movie / User
-                  │
-      ┌───────────┼───────────┐
-      ▼           ▼           ▼
- Content     Collaborative   Hybrid
-      │           │
-      └───────┬───┘
-              ▼
-      Explainability Layer
-              ▼
-      Streamlit Dashboard
-```
-
----
-
-# 🎯 Key Highlights
+# Key Highlights
 
 * Three independent recommendation engines
 * Explainable recommendations
@@ -269,22 +246,8 @@ streamlit run app.py
 * Real movie posters and metadata
 * Clean, modular project architecture
 
----
 
-# 🔮 Future Improvements
-
-* User login and profile management
-* Real-time rating updates
-* Deep Learning Collaborative Filtering (Neural CF)
-* Recommendation diversity optimization
-* User feedback loop
-* Movie trailer integration
-* Model performance analytics
-* Cloud deployment with CI/CD
-
----
-
-# 👨‍💻 Author
+# Author
 
 **Vighnesh Sankpal**
 
