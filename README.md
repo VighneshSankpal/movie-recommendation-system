@@ -17,10 +17,14 @@ An intelligent movie recommendation system built using **Machine Learning**, **D
 
 ---
 
+## Live Demo
+
+**Live Application:**  
+https://vighnesh-movie-recommendation.streamlit.app
+
 # 📸 Application Preview
 
-![](screenshots/movie_recommendation_system_demo.mp4)
-
+<video src="screenshots/movie_recommendation_system_demo.mp4" width="100%" controls></video>
 
 ---
 
